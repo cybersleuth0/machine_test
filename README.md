@@ -2,7 +2,7 @@
 
 **A Flutter machine-test app: Firebase email/sign-up auth + an infinite-scroll paginated user list, built with an MVVM + Repository pattern.**
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.8+-blue?logo=flutter)](https://flutter.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.44.4-blue?logo=flutter)](https://flutter.dev)
 [![Provider](https://img.shields.io/badge/State%20Management-Provider-13B9FD)](https://pub.dev/packages/provider)
 [![Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase)](https://firebase.google.com)
 
@@ -50,7 +50,7 @@ graph TD
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Flutter 3.8+
+- Flutter 3.44.4 (Dart 3.12.2)
 - A Firebase project with Email/Password auth enabled (`firebase_options.dart` already configured)
 
 ### Run
