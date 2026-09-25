@@ -1,16 +1,82 @@
-# machine_test
+# 👥 User Directory
 
-A new Flutter project.
+**A Flutter machine-test app: Firebase email/sign-up auth + an infinite-scroll paginated user list, built with an MVVM + Repository pattern.**
 
-## Getting Started
+[![Flutter](https://img.shields.io/badge/Flutter-3.8+-blue?logo=flutter)](https://flutter.dev)
+[![Provider](https://img.shields.io/badge/State%20Management-Provider-13B9FD)](https://pub.dev/packages/provider)
+[![Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase)](https://firebase.google.com)
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## ✨ Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Firebase Auth** — email/password login & sign-up, with friendly error messages mapped from `FirebaseAuthException`.
+- **Session Persistence** — `shared_preferences` remembers login state so a restart skips the login screen.
+- **Paginated User List** — infinite scroll against [reqres.in](https://reqres.in), 5 users per page, loads more near the bottom.
+- **Cached Avatars** — `cached_network_image` for user avatars.
+- **Pull to Refresh** — resets to page 1 and refetches.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🏗️ Architecture
+
+MVVM with a repository layer sitting between `ChangeNotifier` view models and the API/auth services.
+
+```
+View (LoginPage / SignUpPage / HomePage)
+   │  watches
+   ▼
+ViewModel (AuthViewmodel / UserViewmodel) — ChangeNotifier
+   │  calls
+   ▼
+Repository (AuthRepository / UserRepository)
+   │  calls
+   ▼
+Service (FirebaseAuthService)  /  ApiHelper (http singleton → reqres.in)
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Package | Usage |
+|---|---|
+| `provider` | State management |
+| `firebase_auth` | Email/password authentication |
+| `http` | REST client for the user list API |
+| `shared_preferences` | Local login-state persistence |
+| `cached_network_image` | Avatar image caching |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter 3.8+
+- A Firebase project with Email/Password auth enabled (`firebase_options.dart` already configured)
+
+### Run
+```bash
+flutter pub get
+flutter run
+```
+
+---
+
+## 📂 Project Structure
+
+```
+lib/
+├── core/
+│   ├── constants/          # AppRoutes, AppUrls
+│   ├── network/             # ApiHelper (http client)
+│   └── services/             # FirebaseAuthService, SharedPreferencesService
+├── data/
+│   ├── models/               # userModel
+│   └── repositories/         # AuthRepository, UserRepository
+├── viewmodels/               # AuthViewmodel, UserViewmodel
+├── views/
+│   ├── auth/                 # LoginPage, signUpPage
+│   └── user_list/            # HomePage (paginated list)
+└── main.dart
+```
