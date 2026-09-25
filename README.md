@@ -22,17 +22,15 @@
 
 MVVM with a repository layer sitting between `ChangeNotifier` view models and the API/auth services.
 
-```
-View (LoginPage / SignUpPage / HomePage)
-   │  watches
-   ▼
-ViewModel (AuthViewmodel / UserViewmodel) — ChangeNotifier
-   │  calls
-   ▼
-Repository (AuthRepository / UserRepository)
-   │  calls
-   ▼
-Service (FirebaseAuthService)  /  ApiHelper (http singleton → reqres.in)
+```mermaid
+graph TD
+    A[View: LoginPage / SignUpPage / HomePage] -->|watch| B[ViewModel: ChangeNotifier]
+    B -->|"State (notifyListeners)"| A
+    B -->|Repository Calls| C[Repository]
+    C -->|Auth| D[FirebaseAuthService]
+    C -->|Users| E[ApiHelper / http]
+    D --> F[Firebase Auth]
+    E --> G[reqres.in]
 ```
 
 ---
