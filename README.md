@@ -5,6 +5,14 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.44.4-blue?logo=flutter)](https://flutter.dev)
 [![Provider](https://img.shields.io/badge/State%20Management-Provider-13B9FD)](https://pub.dev/packages/provider)
 [![Firebase](https://img.shields.io/badge/Auth-Firebase-FFCA28?logo=firebase)](https://firebase.google.com)
+[![Download APK](https://img.shields.io/badge/Download-APK%20(v1.0.0)-success?logo=android)](https://github.com/cybersleuth0/machine_test/releases/download/v1.0.0/app-release.apk)
+
+---
+
+## 📥 Download APK
+
+Direct link for Android test build:
+- 📲 **[Download app-release.apk (v1.0.0)](https://github.com/cybersleuth0/machine_test/releases/download/v1.0.0/app-release.apk)**
 
 ---
 
