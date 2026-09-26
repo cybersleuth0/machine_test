@@ -29,9 +29,22 @@ void main() async {
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        scrollBehavior: const AlwaysScrollbarBehavior(),
         initialRoute: isLoggedIn ? AppRoutes.ROUTE_HOMEPAGE : AppRoutes.ROUTE_LOGINPAGE,
         routes: AppRoutes.getRoutes(),
       ),
     ),
   );
+}
+
+class AlwaysScrollbarBehavior extends MaterialScrollBehavior {
+  const AlwaysScrollbarBehavior();
+
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
 }

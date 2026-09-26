@@ -24,6 +24,38 @@ class _LogInPageState extends State<LogInPage> {
     super.dispose();
   }
 
+  Future<void> _submit() async {
+    final authVM = context.read<AuthViewmodel>();
+    if (authVM.isLoading) return;
+    if (!_formKey.currentState!.validate()) return;
+
+    final success = await authVM.login(
+      email: _emailCtrl.text.trim(),
+      password: _passwordCtrl.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOMEPAGE);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authVM.errorMessage ?? 'Login failed',
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          margin: const EdgeInsets.all(20),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +63,7 @@ class _LogInPageState extends State<LogInPage> {
         child: Center(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: Form(
               key: _formKey,
@@ -102,6 +135,7 @@ class _LogInPageState extends State<LogInPage> {
                     controller: _passwordCtrl,
                     obscureText: !_isPasswordVisible,
                     textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _submit(),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Please enter your password';
@@ -150,37 +184,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: Consumer<AuthViewmodel>(
                       builder: (ctx, authVM, child) {
                         return ElevatedButton(
-                          onPressed: authVM.isLoading
-                              ? null
-                              : () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    final success = await authVM.login(
-                                      email: _emailCtrl.text.trim(),
-                                      password: _passwordCtrl.text.trim(),
-                                    );
-
-                                    if (!context.mounted) return;
-
-                                    if (success) {
-                                      Navigator.pushReplacementNamed(context, AppRoutes.ROUTE_HOMEPAGE);
-                                    } else {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            authVM.errorMessage ?? 'Login failed',
-                                            style: const TextStyle(color: Colors.white),
-                                          ),
-                                          backgroundColor: Colors.red,
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                          ),
-                                          margin: const EdgeInsets.all(20),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                },
+                          onPressed: authVM.isLoading ? null : _submit,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
